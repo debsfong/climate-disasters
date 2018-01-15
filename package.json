@@ -7,10 +7,13 @@
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
     "lodash": "^4.17.4",
+    "logger": "0.0.1",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-redux": "^5.0.6",
     "redux": "^3.7.2",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.2.0",
     "webpack": "^3.10.0"
   },
   "description": "This project is an exercise that is part of the interview process for joining [Checkr](https://api.checkr.com).",
