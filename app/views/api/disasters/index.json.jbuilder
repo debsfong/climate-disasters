@@ -1,5 +1,5 @@
 @disasters.each do |disaster|
     json.set! disaster.id do
-        json.partial! 'disaster', disaster: disaster
+        json.extract! disaster, :title, :state
     end
 end
