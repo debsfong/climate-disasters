@@ -1,6 +1,5 @@
 class Api::DisastersController < ApplicationController
     def index
-        # disasters = filters ? Disaster.
-        @disasters = Disaster.where(incidentType: "Earthquake", state: "CA")
+        @disasters = Disaster.where(incidentType: params[:incidentType])
     end
 end

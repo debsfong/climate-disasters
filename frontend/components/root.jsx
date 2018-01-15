@@ -1,11 +1,11 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 // import { HashRouter } from 'react-router-dom';
-import MapContainer from './map_container.jsx'
+import App from './app.jsx'
 
 const Root = ({store}) => (
 <Provider store={store}>
-    <MapContainer />
+    <App />
 </Provider>
 )
     // <HashRouter>

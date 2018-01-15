@@ -1,17 +1,17 @@
 import { connect } from 'react-redux';
 import { fetchDisasters } from '../actions/disaster_actions';
 
-import Map from './map';
+import Filter from './filter';
 
 const mapStateToProps = ({disasters}) => ({
-    disasters: Object.keys(disasters).map(key => disasters[key])
   });
   
   const mapDispatchToProps = dispatch => ({
+    fetchDisasters: (filter) => dispatch(fetchDisasters(filter))
   });
   
   export default connect(
     mapStateToProps,
     mapDispatchToProps
-  )(Map);
+  )(Filter);
   
