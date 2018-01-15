@@ -11,4 +11,5 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const root = document.getElementById('map');
   ReactDOM.render(<Root store={store}/>, document.getElementById("root"));
+  window.store=store;
 });

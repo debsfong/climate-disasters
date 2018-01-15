@@ -1,4 +1,4 @@
-
+import * as APIUtil from '../util/disaster_api_util';
 
 export const RECEIVE_DISASTERS = 'RECEIVE_DISASTERS';
 
@@ -9,6 +9,6 @@ export const receiveDisasters = disasters => ({
 
 export const fetchDisasters = filters => dispatch => (
     APIUtil.fetchDisasters(filters).then(disasters => (
-        disatch(receiveDisasters(disasters))
+        dispatch(receiveDisasters(disasters))
     ))
 );
