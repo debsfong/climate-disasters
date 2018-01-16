@@ -56,12 +56,10 @@ class Filter extends React.Component {
 
     render() {
         return (
-            <div>
-                 <div id="controls" className="nicebox">
-                    <select id="census-variable" value={this.state.selected} onChange={this.handleSelect}>
-                        {this.generateOptions()}
-                    </select>
-                </div>
+            <div id="controls" className="nicebox">
+                <select id="census-variable" value={this.state.selected} onChange={this.handleSelect}>
+                    {this.generateOptions()}
+                </select>
 
                 <div id="legend">
                     <div id="census-min">min</div>
@@ -70,7 +68,7 @@ class Filter extends React.Component {
                 </div>
 
                 <div id="data-box" className="nicebox">
-                    <label>data-value
+                    <label id='data-label'>
                         <span id="data-value"></span>
                     </label>
                 </div>

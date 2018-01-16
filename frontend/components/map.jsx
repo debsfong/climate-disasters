@@ -27,12 +27,14 @@ class DisastersMap extends React.Component {
             zoom: 4,
             styles: mapStyle,
             mapTypeControl: false
-        })
+        });
 
         this.censusMin = Number.MAX_VALUE;
         this.censusMax = -Number.MAX_VALUE;
 
         this.map.data.setStyle(this.styleFeature);
+        this.map.data.addListener('mouseover', this.mouseInToRegion);
+        this.map.data.addListener('mouseout', this.mouseOutOfRegion)
 
         this.map.data.loadGeoJson('https://storage.googleapis.com/mapsdevsite/json/states.js', { idPropertyName: 'NAME' });
     }
@@ -91,7 +93,7 @@ class DisastersMap extends React.Component {
         // }
 
         return {
-            strokeWeight: 2,
+            strokeWeight: 1,
             strokeColor: '#fff',
             zIndex: 2,
             fillColor: polyColor,
@@ -108,6 +110,28 @@ class DisastersMap extends React.Component {
         });
         document.getElementById('data-box').style.display = 'none';
         document.getElementById('data-caret').style.display = 'none';
+    }
+
+    mouseInToRegion(e) {
+        if (e.feature.getProperty('census_variable')) {
+            e.feature.setProperty('state', 'hover');
+            
+            var percent = (e.feature.getProperty('census_variable') - this.censusMin) /
+            (this.censusMax - this.censusMin) * 100;
+            
+            // update the label
+            document.getElementById('data-value').textContent =
+            e.feature.getProperty('NAME') + ': ';
+            document.getElementById('data-value').textContent +=
+            e.feature.getProperty('census_variable').toLocaleString() + ' disasters';
+            document.getElementById('data-box').style.display = 'block';
+            document.getElementById('data-caret').style.display = 'block';
+            document.getElementById('data-caret').style.paddingLeft = percent + '%';
+        }
+    }
+
+    mouseOutOfRegion(e) {
+        e.feature.setProperty('state', 'normal');
     }
 
     render() {
