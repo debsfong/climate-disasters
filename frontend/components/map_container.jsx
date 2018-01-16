@@ -4,7 +4,7 @@ import { fetchDisasters } from '../actions/disaster_actions';
 import Map from './map';
 
 const mapStateToProps = ({disasters}) => ({
-    disasters: Object.keys(disasters).map(key => disasters[key])
+    disasters: disasters
   });
   
   const mapDispatchToProps = dispatch => ({

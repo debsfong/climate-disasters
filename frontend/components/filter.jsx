@@ -5,7 +5,7 @@ class Filter extends React.Component {
         super(props);
                 
         this.state = {
-            selected: "Earthquake"
+            selected: ""
         }
 
         this.handleSelect = this.handleSelect.bind(this);
@@ -41,9 +41,12 @@ class Filter extends React.Component {
             "Flood"
         ]
 
-        return allDisasters.map(type => (
+        let allOptions = allDisasters.map(type => (
             <option value={type} key={type}>{type.charAt(0).toUpperCase() + type.slice(1)}</option>
         ))
+        return (
+            [<option value="" disabled key="disabled">Select an Option</option>].concat(allOptions)
+        )
     }
 
     handleSelect(e) {

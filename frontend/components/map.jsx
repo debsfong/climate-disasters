@@ -1,25 +1,113 @@
 import React from 'react';
+import stateAbbrs from '../util/state_abbrs';
 
 class DisastersMap extends React.Component {
+
+    constructor(props) {
+        super(props);
+
+        this.clearCensusData = this.clearCensusData.bind(this);
+        this.styleFeature = this.styleFeature.bind(this);   
+    }
+    
     componentDidMount() {
         let mapStyle = [{
-            'stylers': [{'visibility': 'off'}]
+            'stylers': [{ 'visibility': 'off' }]
         }, {
             'featureType': 'landscape',
             'elementType': 'geometry',
-            'stylers': [{'visibility': 'on'}, {'color': '#fcfcfc'}]
+            'stylers': [{ 'visibility': 'on' }, { 'color': '#fcfcfc' }]
         }, {
             'featureType': 'water',
             'elementType': 'geometry',
-            'stylers': [{'visibility': 'on'}, {'color': '#bfd4ff'}]
+            'stylers': [{ 'visibility': 'on' }, { 'color': '#bfd4ff' }]
         }];
-        let map = new google.maps.Map(document.getElementById("map"), {
-            center: {lat: 40, lng: -100},
+        this.map = new google.maps.Map(document.getElementById("map"), {
+            center: { lat: 40, lng: -100 },
             zoom: 4,
-            styles: mapStyle, 
+            styles: mapStyle,
             mapTypeControl: false
         })
-        map.data.loadGeoJson('https://storage.googleapis.com/mapsdevsite/json/states.js', { idPropertyName: 'STATE'});
+
+        this.censusMin = Number.MAX_VALUE;
+        this.censusMax = -Number.MAX_VALUE;
+
+        this.map.data.setStyle(this.styleFeature);
+
+        this.map.data.loadGeoJson('https://storage.googleapis.com/mapsdevsite/json/states.js', { idPropertyName: 'NAME' });
+    }
+
+    componentDidUpdate() {
+        this.clearCensusData();
+        Object.keys(this.props.disasters).map((stateAbbr) => {
+            let stateFullName = stateAbbrs[stateAbbr];
+            if (this.map.data.getFeatureById(stateFullName)) {
+                this.map.data.getFeatureById(stateFullName).setProperty("census_variable", this.props.disasters[stateAbbr]);
+                let censusVariable = this.props.disasters[stateAbbr]
+                if (this.censusMin > censusVariable) {
+                    this.censusMin = censusVariable
+                }
+                if (this.censusMax < censusVariable) {
+                    this.censusMax = censusVariable;
+                }
+            }
+        })
+    }
+
+    styleFeature(feature) {
+        let high = [5, 69, 54];  // color of smallest datum
+        let low = [151, 83, 34];   // color of largest datum
+
+        // // delta represents where the value sits between the min and max
+        let delta
+        if (feature.getProperty('census_variable') && (this.censusMin === this.censusMax)) {
+            delta = 0
+        } else if (feature.getProperty('census_variable')) {
+            delta = ((feature.getProperty('census_variable') - this.censusMin) / (this.censusMax - this.censusMin))
+        }
+        let color = [];
+        for (let i = 0; i < 3; i++) {
+          // calculate an integer color based on the delta
+          color[i] = (high[i] - low[i]) * delta + low[i];
+        }
+
+        // // determine whether to show this shape or not
+        let polyColor;
+        if (feature.getProperty('census_variable') == null || isNaN(feature.getProperty('census_variable'))) {
+          polyColor = '#808080';
+        } else {
+            polyColor = 'hsl(' + color[0] + ',' + color[1] + '%,' + color[2] + '%)'
+        }
+
+        // var outlineWeight = 0.5, zIndex = 1;
+        // if (feature.getProperty('state') === 'hover') {
+        //   outlineWeight = zIndex = 2;
+        // }
+        // var strokeWeight;
+        // if (feature.getProperty('census_variable') > 2) {
+        //     strokeWeight = 4;
+        // } else {
+        //     strokeWeight = 2;
+        // }
+
+        return {
+            strokeWeight: 2,
+            strokeColor: '#fff',
+            zIndex: 2,
+            fillColor: polyColor,
+            fillOpacity: 0.75,
+            visible: true
+        };
+    }
+
+    clearCensusData() {
+        this.censusMin = Number.MAX_VALUE;
+        this.censusMax = -Number.MAX_VALUE;
+        this.map.data.forEach(function (row) {
+            row.setProperty('census_variable', undefined);
+        });
+        document.getElementById('data-box').style.display = 'none';
+        document.getElementById('data-caret').style.display = 'none';
     }
 
     render() {
