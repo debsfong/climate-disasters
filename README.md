@@ -1,6 +1,6 @@
 This project is an exercise that is part of the interview process for joining [Checkr](https://api.checkr.com).
 
-[Live Site](us-climate-disasters.herokuapp.com)
+[Live Site](https://us-climate-disasters.herokuapp.com)
 
 #### Checkr Interview
 ## Climate Disasters exercise
