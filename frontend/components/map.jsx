@@ -9,6 +9,7 @@ class DisastersMap extends React.Component {
         this.clearCensusData = this.clearCensusData.bind(this);
         this.loadCensusData = this.loadCensusData.bind(this);
         this.styleFeature = this.styleFeature.bind(this);   
+        this.mouseInToRegion = this.mouseInToRegion.bind(this);   
     }
     
     componentDidMount() {
@@ -60,6 +61,8 @@ class DisastersMap extends React.Component {
                 }
             }
         })
+        this.censusMin === Number.MAX_VALUE ? document.getElementById('census-min').textContent = "min" : document.getElementById('census-min').textContent = this.censusMin.toLocaleString();
+        this.censusMax === -Number.MAX_VALUE ? document.getElementById('census-max').textContent = "max" : document.getElementById('census-max').textContent = this.censusMax.toLocaleString();
     }
 
     styleFeature(feature) {
@@ -116,14 +119,10 @@ class DisastersMap extends React.Component {
         if (e.feature.getProperty('census_variable')) {
             e.feature.setProperty('state', 'hover');
             
-            var percent = (e.feature.getProperty('census_variable') - this.censusMin) /
-            (this.censusMax - this.censusMin) * 100;
-            
+            let percent = (e.feature.getProperty('census_variable') - this.censusMin) / (this.censusMax - this.censusMin) * 100;
             // update the label
-            document.getElementById('data-value').textContent =
-            e.feature.getProperty('NAME') + ': ';
-            document.getElementById('data-value').textContent +=
-            e.feature.getProperty('census_variable').toLocaleString() + ' disasters';
+            document.getElementById('data-value').textContent = e.feature.getProperty('NAME') + ': ';
+            document.getElementById('data-value').textContent += e.feature.getProperty('census_variable').toLocaleString() + ' disasters';
             document.getElementById('data-box').style.display = 'block';
             document.getElementById('data-caret').style.display = 'block';
             document.getElementById('data-caret').style.paddingLeft = percent + '%';
