@@ -14,7 +14,7 @@ class Filter extends React.Component {
     }
     
     componentDidMount() {
-        this.props.fetchDisasters({incident_type: this.state.selectedDisaster, year: this.state.selectedYear});
+        this.props.fetchDisasters({incident_type: "All", year: "All"});
     }
     
     generateOptions(filterValue) {

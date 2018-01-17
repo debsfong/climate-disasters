@@ -87,7 +87,7 @@ class DisastersMap extends React.Component {
             polyColor = 'hsl(' + color[0] + ',' + color[1] + '%,' + color[2] + '%)'
         }
 
-        var outlineWeight = zIndex = 1;
+        var outlineWeight = 1, zIndex = 1;
         if (feature.getProperty('state') === 'hover') {
           outlineWeight = zIndex = 4;
         }
