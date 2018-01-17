@@ -19,23 +19,23 @@ csv_text = File.read(Rails.root.join('lib', 'seeds', 'DisasterDeclarationsSummar
 csv = CSV.parse(csv_text, headers: true, encoding: 'ISO-8859-1')
 csv.each do |row|
   t = Disaster.new
-  t.disasterNumber = row['disasterNumber']
-  t.ihProgramDeclared = row['ihProgramDeclared']
-  t.iaProgramDeclared = row['iaProgramDeclared']
-  t.paProgramDeclared = row['paProgramDeclared']
-  t.hmProgramDeclared = row['hmProgramDeclared']
+  t.disaster_number = row['disasterNumber']
+  t.ih_drogram_declared = row['ihProgramDeclared']
+  t.ia_program_declared = row['iaProgramDeclared']
+  t.pa_program_declared = row['paProgramDeclared']
+  t.hm_program_declared = row['hmProgramDeclared']
   t.state = row['state']
-  t.declarationDate = row['declarationDate']
-  t.disasterType = row['disasterType']
-  t.incidentType = row['incidentType']
+  t.declaration_date = row['declarationDate']
+  t.disaster_type = row['disasterType']
+  t.incident_type = row['incidentType']
   t.title = row['title']
-  t.incidentBeginDate = row['incidentBeginDate']
-  t.incidentEndDate = row['incidentEndDate']
-  t.disasterCloseOutDate = row['disasterCloseOutDate']
-  t.declaredCountyArea = row['declaredCountyArea']
-  t.placeCode = row['placeCode']
+  t.incident_begin_date = row['incidentBeginDate']
+  t.incident_end_date = row['incidentEndDate']
+  t.disaster_close_out_date = row['disasterCloseOutDate']
+  t.declared_county_area = row['declaredCountyArea']
+  t.place_code = row['placeCode']
   t.md5hash = row['md5hash']
-  t.lastRefresh = row['lastRefresh']
+  t.last_refresh = row['lastRefresh']
   t.save
 end
 

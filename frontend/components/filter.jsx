@@ -12,7 +12,7 @@ class Filter extends React.Component {
     }
     
     componentDidMount() {
-        this.props.fetchDisasters({incidentType: this.state.selected});
+        this.props.fetchDisasters({incident_type: this.state.selected});
     }
     
     generateOptions() {
@@ -45,13 +45,13 @@ class Filter extends React.Component {
             <option value={type} key={type}>{type.charAt(0).toUpperCase() + type.slice(1)}</option>
         ))
         return (
-            [<option value="" disabled key="disabled">Select an Option</option>].concat(allOptions)
+            [<option value="" disabled key="disabled">Select a Climate Disaster</option>].concat(allOptions)
         )
     }
 
     handleSelect(e) {
         this.setState({selected: e.target.value})
-        this.props.fetchDisasters({incidentType: e.target.value})
+        this.props.fetchDisasters({incident_type: e.target.value})
     }
 
     render() {
