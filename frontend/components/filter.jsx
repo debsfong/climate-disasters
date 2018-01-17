@@ -97,8 +97,9 @@ class Filter extends React.Component {
                     <label id='data-label'>
                         <span id="data-value"></span>
                     </label>
+                    <p id="note">*Disasters have been counted once per county in each state</p>
                 </div>
-                <p id="note">*Disasters have been counted once per county in each state</p>
+                <p id="source">Source: OpenFEMA Dataset: Disaster Declarations Summaries - V1</p>
             </div>
         )
     }

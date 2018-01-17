@@ -131,6 +131,8 @@ class DisastersMap extends React.Component {
 
     mouseOutOfRegion(e) {
         e.feature.setProperty('state', 'normal');
+        document.getElementById('data-box').style.display = 'none';
+        document.getElementById('data-caret').style.display = 'none';
     }
 
     render() {
