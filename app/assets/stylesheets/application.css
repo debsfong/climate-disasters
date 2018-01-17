@@ -99,7 +99,7 @@ select {
     font-size: 1.5em; 
     font-weight: normal; 
     padding: 5px;
-    display: inline-block
+    display: inline-block;
 }
 
 #data-caret { 
@@ -107,4 +107,9 @@ select {
     display: none; 
     font-size: 14px; 
     width: 14px
+}
+
+#note {
+    padding: 5px;
+    text-align: left;
 }

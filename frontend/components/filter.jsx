@@ -98,6 +98,7 @@ class Filter extends React.Component {
                         <span id="data-value"></span>
                     </label>
                 </div>
+                <p id="note">*Disasters have been counted once per county in each state</p>
             </div>
         )
     }
