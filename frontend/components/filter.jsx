@@ -5,8 +5,8 @@ class Filter extends React.Component {
         super(props);
                 
         this.state = {
-            selectedDisaster: "All",
-            selectedYear: "All"
+            selectedDisaster: "",
+            selectedYear: ""
         }
 
         this.disasterSelect = this.disasterSelect.bind(this);
@@ -14,11 +14,14 @@ class Filter extends React.Component {
     }
     
     componentDidMount() {
-        this.props.fetchDisasters({incident_type: this.state.selected});
+        this.props.fetchDisasters({incident_type: this.state.selectedDisaster, year: this.state.selectedYear});
     }
     
     generateOptions(filterValue) {
-        let allOptions = [];
+        let allOptions = [
+            <option value="" key="" disabled>Select a {filterValue}</option>,
+            <option value="All" key="All">All {filterValue}s</option>
+        ];
         if (filterValue == 'Climate Disaster') {
             let allDisasters = [
                 "Earthquake",
@@ -44,7 +47,9 @@ class Filter extends React.Component {
                 "Toxic Substances",
                 "Flood"
             ]
-            allOptions = allDisasters.map(type => (<option value={type} key={type}>{type}</option>))
+            allOptions = allOptions.concat(
+                allDisasters.map(type => (<option value={type} key={type}>{type}</option>))
+            );
         } else if (filterValue == 'Year') {
             let curYear = new Date().getFullYear();
             for (let i = 1953; i <= curYear; i++) {
@@ -52,16 +57,22 @@ class Filter extends React.Component {
             }
         }
         return (
-            [<option value="All" key="All">All {filterValue}s</option>].concat(allOptions)
+            allOptions
         );
     }
 
     disasterSelect(e) {
+        if (this.state.selectedYear === "") {
+            this.state.selectedYear = "All"
+        }
         this.setState({selectedDisaster: e.target.value})
         this.props.fetchDisasters({incident_type: e.target.value, year: this.state.selectedYear})
     }
 
     yearSelect(e) {
+        if (this.state.selectedDisaster === "") {
+            this.state.selectedDisaster = "All"
+        }
         this.setState({selectedYear: e.target.value})
         this.props.fetchDisasters({incident_type: this.state.selectedDisaster, year: e.target.value})
     }
@@ -69,10 +80,10 @@ class Filter extends React.Component {
     render() {
         return (
             <div id="controls" className="nicebox">
-                <select id="census-variable" value={this.state.selectedDisaster} onChange={this.disasterSelect}>
+                <select id="dropdown" value={this.state.selectedDisaster} onChange={this.disasterSelect}>
                     {this.generateOptions('Climate Disaster')}
                 </select>
-                <select id="year-variable" value={this.state.selectedYear} onChange={this.yearSelect}>
+                <select id="dropdown" value={this.state.selectedYear} onChange={this.yearSelect}>
                     {this.generateOptions('Year')}
                 </select>
 

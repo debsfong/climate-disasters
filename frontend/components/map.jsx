@@ -7,6 +7,7 @@ class DisastersMap extends React.Component {
         super(props);
 
         this.clearCensusData = this.clearCensusData.bind(this);
+        this.loadCensusData = this.loadCensusData.bind(this);
         this.styleFeature = this.styleFeature.bind(this);   
     }
     
@@ -37,9 +38,14 @@ class DisastersMap extends React.Component {
         this.map.data.addListener('mouseout', this.mouseOutOfRegion)
 
         this.map.data.loadGeoJson('https://storage.googleapis.com/mapsdevsite/json/states.js', { idPropertyName: 'NAME' });
+        this.loadCensusData();
     }
 
     componentDidUpdate() {
+        this.loadCensusData();
+    }
+    
+    loadCensusData() {
         this.clearCensusData();
         Object.keys(this.props.disasters).map((stateAbbr) => {
             let stateFullName = stateAbbrs[stateAbbr];
