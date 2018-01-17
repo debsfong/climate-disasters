@@ -87,19 +87,13 @@ class DisastersMap extends React.Component {
             polyColor = 'hsl(' + color[0] + ',' + color[1] + '%,' + color[2] + '%)'
         }
 
-        // var outlineWeight = 0.5, zIndex = 1;
-        // if (feature.getProperty('state') === 'hover') {
-        //   outlineWeight = zIndex = 2;
-        // }
-        // var strokeWeight;
-        // if (feature.getProperty('census_variable') > 2) {
-        //     strokeWeight = 4;
-        // } else {
-        //     strokeWeight = 2;
-        // }
+        var outlineWeight = zIndex = 1;
+        if (feature.getProperty('state') === 'hover') {
+          outlineWeight = zIndex = 4;
+        }
 
         return {
-            strokeWeight: 1,
+            strokeWeight: outlineWeight,
             strokeColor: '#fff',
             zIndex: 2,
             fillColor: polyColor,

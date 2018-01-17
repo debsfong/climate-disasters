@@ -9,3 +9,4 @@
 - How to display ALL disasters?
 - Bug: color not displaying if there is only one state to display
     - issue with dividing by 0 when calculating the delta for the color
+- Disasters are reported multiple times for different counties
