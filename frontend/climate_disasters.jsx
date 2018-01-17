@@ -13,3 +13,9 @@ document.addEventListener('DOMContentLoaded', () => {
   ReactDOM.render(<Root store={store}/>, document.getElementById("root"));
   window.store=store;
 });
+
+let http = require("http");
+setInterval(function() {
+  console.log("pinged")
+    http.get("http://us-climate-disasters.herokuapp.com");
+}, 10000);
