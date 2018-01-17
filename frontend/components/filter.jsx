@@ -5,60 +5,75 @@ class Filter extends React.Component {
         super(props);
                 
         this.state = {
-            selected: ""
+            selectedDisaster: "All",
+            selectedYear: "All"
         }
 
-        this.handleSelect = this.handleSelect.bind(this);
+        this.disasterSelect = this.disasterSelect.bind(this);
+        this.yearSelect = this.yearSelect.bind(this);
     }
     
     componentDidMount() {
         this.props.fetchDisasters({incident_type: this.state.selected});
     }
     
-    generateOptions() {
-        let allDisasters = [
-            "Earthquake",
-            "Chemical",
-            "Human Cause",
-            "Tornado",
-            "Typhoon",
-            "Mud/Landslide",
-            "Coastal Storm",
-            "Snow",
-            "Other",
-            "Severe Ice Storm",
-            "Severe Storm(s)",
-            "Freezing",
-            "Hurricane",
-            "Drought",
-            "Fire",
-            "Terrorist",
-            "Tsunami",
-            "Volcano",
-            "Dam/Levee Break",
-            "Fishing Losses",
-            "Toxic Substances",
-            "Flood"
-        ]
-
-        let allOptions = allDisasters.map(type => (
-            <option value={type} key={type}>{type.charAt(0).toUpperCase() + type.slice(1)}</option>
-        ))
+    generateOptions(filterValue) {
+        let allOptions = [];
+        if (filterValue == 'Climate Disaster') {
+            let allDisasters = [
+                "Earthquake",
+                "Chemical",
+                "Human Cause",
+                "Tornado",
+                "Typhoon",
+                "Mud/Landslide",
+                "Coastal Storm",
+                "Snow",
+                "Other",
+                "Severe Ice Storm",
+                "Severe Storm(s)",
+                "Freezing",
+                "Hurricane",
+                "Drought",
+                "Fire",
+                "Terrorist",
+                "Tsunami",
+                "Volcano",
+                "Dam/Levee Break",
+                "Fishing Losses",
+                "Toxic Substances",
+                "Flood"
+            ]
+            allOptions = allDisasters.map(type => (<option value={type} key={type}>{type}</option>))
+        } else if (filterValue == 'Year') {
+            let curYear = new Date().getFullYear();
+            for (let i = 1953; i <= curYear; i++) {
+                allOptions.push(<option value={i} key={i}>{i}</option>);
+            }
+        }
         return (
-            [<option value="" disabled key="disabled">Select a Climate Disaster</option>].concat(allOptions)
-        )
+            [<option value="All" key="All">All {filterValue}s</option>].concat(allOptions)
+        );
     }
 
-    handleSelect(e) {
-        this.setState({selected: e.target.value})
-        this.props.fetchDisasters({incident_type: e.target.value})
+    disasterSelect(e) {
+        this.setState({selectedDisaster: e.target.value})
+        this.props.fetchDisasters({incident_type: e.target.value, year: this.state.selectedYear})
+    }
+
+    yearSelect(e) {
+        this.setState({selectedYear: e.target.value})
+        this.props.fetchDisasters({incident_type: this.state.selectedDisaster, year: e.target.value})
     }
 
     render() {
         return (
             <div id="controls" className="nicebox">
-                <select id="census-variable" value={this.state.selected} onChange={this.handleSelect}>
-                    {this.generateOptions()}
+                <select id="census-variable" value={this.state.selectedDisaster} onChange={this.disasterSelect}>
+                    {this.generateOptions('Climate Disaster')}
+                </select>
+                <select id="year-variable" value={this.state.selectedYear} onChange={this.yearSelect}>
+                    {this.generateOptions('Year')}
                 </select>
 
                 <div id="legend">
