@@ -67,7 +67,7 @@ class DisastersMap extends React.Component {
 
     styleFeature(feature) {
         let high = [5, 69, 54];  // color of smallest datum
-        let low = [151, 83, 34];   // color of largest datum
+        let low = [127, 81, 37];   // color of largest datum
 
         // // delta represents where the value sits between the min and max
         let delta
