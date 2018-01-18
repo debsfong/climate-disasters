@@ -5,6 +5,9 @@ class DisastersMap extends React.Component {
 
     constructor(props) {
         super(props);
+        
+        this.censusMin = Number.MAX_VALUE;
+        this.censusMax = -Number.MAX_VALUE;
 
         this.clearCensusData = this.clearCensusData.bind(this);
         this.loadCensusData = this.loadCensusData.bind(this);
@@ -30,9 +33,6 @@ class DisastersMap extends React.Component {
             styles: mapStyle,
             mapTypeControl: false
         });
-
-        this.censusMin = Number.MAX_VALUE;
-        this.censusMax = -Number.MAX_VALUE;
 
         this.map.data.setStyle(this.styleFeature);
         this.map.data.addListener('mouseover', this.mouseInToRegion);

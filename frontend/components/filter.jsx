@@ -23,29 +23,29 @@ class Filter extends React.Component {
             <option value="All" key="All">All {filterValue}s</option>
         ];
         if (filterValue == 'Climate Disaster') {
-            let allDisasters = [
-                "Earthquake",
-                "Chemical",
-                "Human Cause",
-                "Tornado",
-                "Typhoon",
-                "Mud/Landslide",
-                "Coastal Storm",
-                "Snow",
-                "Other",
-                "Severe Ice Storm",
-                "Severe Storm(s)",
-                "Freezing",
-                "Hurricane",
-                "Drought",
-                "Fire",
-                "Terrorist",
-                "Tsunami",
-                "Volcano",
-                "Dam/Levee Break",
-                "Fishing Losses",
-                "Toxic Substances",
-                "Flood"
+            let allDisasters = [ 
+                'Chemical',
+                'Coastal Storm',
+                'Dam/Levee Break',
+                'Drought',
+                'Earthquake',
+                'Fire',
+                'Fishing Losses',
+                'Flood',
+                'Freezing',
+                'Human Cause',
+                'Hurricane',
+                'Mud/Landslide',
+                'Other',
+                'Severe Ice Storm',
+                'Severe Storm(s)',
+                'Snow',
+                'Terrorist',
+                'Tornado',
+                'Toxic Substances',
+                'Tsunami',
+                'Typhoon',
+                'Volcano' 
             ]
             allOptions = allOptions.concat(
                 allDisasters.map(type => (<option value={type} key={type}>{type}</option>))

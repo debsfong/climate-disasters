@@ -16,6 +16,5 @@ document.addEventListener('DOMContentLoaded', () => {
 
 let http = require("http");
 setInterval(function() {
-  console.log("pinged")
     http.get("http://us-climate-disasters.herokuapp.com");
 }, 600000);
