@@ -6,11 +6,11 @@ class DisastersMap extends React.Component {
     constructor(props) {
         super(props);
         
-        this.censusMin = Number.MAX_VALUE;
-        this.censusMax = -Number.MAX_VALUE;
+        this.disasterMin = Number.MAX_VALUE;
+        this.disasterMax = -Number.MAX_VALUE;
 
-        this.clearCensusData = this.clearCensusData.bind(this);
-        this.loadCensusData = this.loadCensusData.bind(this);
+        this.clearDisasterData = this.clearDisasterData.bind(this);
+        this.loadDisasterData = this.loadDisasterData.bind(this);
         this.styleFeature = this.styleFeature.bind(this);   
         this.mouseInToRegion = this.mouseInToRegion.bind(this);   
     }
@@ -39,30 +39,30 @@ class DisastersMap extends React.Component {
         this.map.data.addListener('mouseout', this.mouseOutOfRegion)
 
         this.map.data.loadGeoJson('https://storage.googleapis.com/mapsdevsite/json/states.js', { idPropertyName: 'NAME' });
-        this.loadCensusData();
+        this.loadDisasterData();
     }
 
     componentDidUpdate() {
-        this.loadCensusData();
+        this.loadDisasterData();
     }
     
-    loadCensusData() {
-        this.clearCensusData();
+    loadDisasterData() {
+        this.clearDisasterData();
         Object.keys(this.props.disasters).map((stateAbbr) => {
             let stateFullName = stateAbbrs[stateAbbr];
             if (this.map.data.getFeatureById(stateFullName)) {
-                this.map.data.getFeatureById(stateFullName).setProperty("census_variable", this.props.disasters[stateAbbr]);
-                let censusVariable = this.props.disasters[stateAbbr]
-                if (this.censusMin > censusVariable) {
-                    this.censusMin = censusVariable
+                this.map.data.getFeatureById(stateFullName).setProperty("disaster_variable", this.props.disasters[stateAbbr]);
+                let disasterVariable = this.props.disasters[stateAbbr]
+                if (this.disasterMin > disasterVariable) {
+                    this.disasterMin = disasterVariable
                 }
-                if (this.censusMax < censusVariable) {
-                    this.censusMax = censusVariable;
+                if (this.disasterMax < disasterVariable) {
+                    this.disasterMax = disasterVariable;
                 }
             }
         })
-        this.censusMin === Number.MAX_VALUE ? document.getElementById('census-min').textContent = "min" : document.getElementById('census-min').textContent = this.censusMin.toLocaleString();
-        this.censusMax === -Number.MAX_VALUE ? document.getElementById('census-max').textContent = "max" : document.getElementById('census-max').textContent = this.censusMax.toLocaleString();
+        this.disasterMin === Number.MAX_VALUE ? document.getElementById('disaster-min').textContent = "min" : document.getElementById('disaster-min').textContent = this.disasterMin.toLocaleString();
+        this.disasterMax === -Number.MAX_VALUE ? document.getElementById('disaster-max').textContent = "max" : document.getElementById('disaster-max').textContent = this.disasterMax.toLocaleString();
     }
 
     styleFeature(feature) {
@@ -71,10 +71,10 @@ class DisastersMap extends React.Component {
 
         // // delta represents where the value sits between the min and max
         let delta
-        if (feature.getProperty('census_variable') && (this.censusMin === this.censusMax)) {
+        if (feature.getProperty('disaster_variable') && (this.disasterMin === this.disasterMax)) {
             delta = 0
-        } else if (feature.getProperty('census_variable')) {
-            delta = ((feature.getProperty('census_variable') - this.censusMin) / (this.censusMax - this.censusMin))
+        } else if (feature.getProperty('disaster_variable')) {
+            delta = ((feature.getProperty('disaster_variable') - this.disasterMin) / (this.disasterMax - this.disasterMin))
         }
         let color = [];
         for (let i = 0; i < 3; i++) {
@@ -84,7 +84,7 @@ class DisastersMap extends React.Component {
 
         // // determine whether to show this shape or not
         let polyColor;
-        if (feature.getProperty('census_variable') == null || isNaN(feature.getProperty('census_variable'))) {
+        if (feature.getProperty('disaster_variable') == null || isNaN(feature.getProperty('disaster_variable'))) {
           polyColor = '#808080';
         } else {
             polyColor = 'hsl(' + color[0] + ',' + color[1] + '%,' + color[2] + '%)'
@@ -105,24 +105,24 @@ class DisastersMap extends React.Component {
         };
     }
 
-    clearCensusData() {
-        this.censusMin = Number.MAX_VALUE;
-        this.censusMax = -Number.MAX_VALUE;
+    clearDisasterData() {
+        this.disasterMin = Number.MAX_VALUE;
+        this.disasterMax = -Number.MAX_VALUE;
         this.map.data.forEach(function (row) {
-            row.setProperty('census_variable', undefined);
+            row.setProperty('disaster_variable', undefined);
         });
         document.getElementById('data-box').style.display = 'none';
         document.getElementById('data-caret').style.display = 'none';
     }
 
     mouseInToRegion(e) {
-        if (e.feature.getProperty('census_variable')) {
+        if (e.feature.getProperty('disaster_variable')) {
             e.feature.setProperty('state', 'hover');
             
-            let percent = (e.feature.getProperty('census_variable') - this.censusMin) / (this.censusMax - this.censusMin) * 100;
+            let percent = (e.feature.getProperty('disaster_variable') - this.disasterMin) / (this.disasterMax - this.disasterMin) * 100;
             // update the label
             document.getElementById('data-value').textContent = e.feature.getProperty('NAME') + ': ';
-            document.getElementById('data-value').textContent += e.feature.getProperty('census_variable').toLocaleString() + ' disasters';
+            document.getElementById('data-value').textContent += e.feature.getProperty('disaster_variable').toLocaleString() + ' disasters';
             document.getElementById('data-box').style.display = 'block';
             document.getElementById('data-caret').style.display = 'block';
             document.getElementById('data-caret').style.paddingLeft = percent + '%';

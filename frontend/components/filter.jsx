@@ -88,9 +88,9 @@ class Filter extends React.Component {
                 </select>
 
                 <div id="legend">
-                    <div id="census-min">min</div>
+                    <div id="disaster-min">min</div>
                     <div className="color-key"><span id="data-caret">&#x25c6;</span></div>
-                    <div id="census-max">max</div>
+                    <div id="disaster-max">max</div>
                 </div>
 
                 <div id="data-box" className="nicebox">
